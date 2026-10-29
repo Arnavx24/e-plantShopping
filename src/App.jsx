@@ -1,22 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
+import ProductList from "./components/ProductList";
 import "./App.css";
 
 function App() {
+  const [showProducts, setShowProducts] = useState(false);
+
   return (
-    <div className="landing-page">
-      <div className="landing-content">
-        <h1>Paradise Nursery</h1>
+    <>
+      {!showProducts ? (
+        <div className="background-image">
+          <div style={{ textAlign: "center", paddingTop: "200px" }}>
+            <h1>Welcome to Paradise Nursery</h1>
 
-        <p>
-          Welcome to Paradise Nursery, your destination for beautiful indoor
-          plants.
-        </p>
-
-        <button className="get-started-btn">
-          Get Started
-        </button>
-      </div>
-    </div>
+            <button
+              className="get-started-button"
+              onClick={() => setShowProducts(true)}
+            >
+              Get Started
+            </button>
+          </div>
+        </div>
+      ) : (
+        <ProductList />
+      )}
+    </>
   );
 }
 
