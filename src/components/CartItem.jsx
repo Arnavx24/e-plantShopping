@@ -1,61 +1,54 @@
-import { createSlice } from "@reduxjs/toolkit";
+import React, { useState } from "react";
 
-const initialState = {
-  items: []
-};
+function CartItem() {
+  const [quantity, setQuantity] = useState(1);
 
-const cartSlice = createSlice({
-  name: "cart",
-  initialState,
-  reducers: {
-    addItem: (state, action) => {
-      const item = state.items.find(
-        plant => plant.id === action.payload.id
-      );
+  const unitPrice = 20;
 
-      if (item) {
-        item.quantity += 1;
-      } else {
-        state.items.push({
-          ...action.payload,
-          quantity: 1
-        });
-      }
-    },
+  const totalCost = quantity * unitPrice;
 
-    removeItem: (state, action) => {
-      state.items = state.items.filter(
-        item => item.id !== action.payload
-      );
-    },
+  return (
+    <div>
+      <h1>Shopping Cart</h1>
 
-    increaseQuantity: (state, action) => {
-      const item = state.items.find(
-        item => item.id === action.payload
-      );
+      https://via.placeholder.com/100
 
-      if (item) {
-        item.quantity += 1;
-      }
-    },
+      <h3>Snake Plant</h3>
 
-    decreaseQuantity: (state, action) => {
-      const item = state.items.find(
-        item => item.id === action.payload
-      );
+      <p>Unit Price: ${unitPrice}</p>
 
-      if (item && item.quantity > 1) {
-        item.quantity -= 1;
-      }
-    }
-  }
-});
+      <p>Total Cost: ${totalCost}</p>
 
-export const {
-  addItem,
-  removeItem,
-  increaseQuantity,
-  decreaseQuantity
-} = cartSlice.actions;
+      <button onClick={() => setQuantity(quantity + 1)}>
+        Increase Quantity
+      </button>
 
-export default cartSlice.reducer;
+      <button
+        onClick={() =>
+          quantity > 1 &&
+          setQuantity(quantity - 1)
+        }
+      >
+        Decrease Quantity
+      </button>
+
+      <button>
+        Delete Item
+      </button>
+
+      <h2>Total Cart Amount: ${totalCost}</h2>
+
+      <button
+        onClick={() => alert("Coming Soon")}
+      >
+        Checkout
+      </button>
+
+      <button>
+        Continue Shopping
+      </button>
+    </div>
+  );
+}
+
+export default CartItem;
