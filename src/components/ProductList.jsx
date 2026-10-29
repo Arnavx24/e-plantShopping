@@ -1,62 +1,89 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addItem } from "../redux/CartSlice";
+
+const plantsArray = [
+  {
+    category: "Air Purifying Plants",
+    plants: [
+      { id: 1, name: "Snake Plant", price: 20, image: "https://via.placeholder.com/100" },
+      { id: 2, name: "Spider Plant", price: 18, image: "https://via.placeholder.com/100" },
+      { id: 3, name: "Peace Lily", price: 25, image: "https://via.placeholder.com/100" },
+      { id: 4, name: "Aloe Vera", price: 15, image: "https://via.placeholder.com/100" },
+      { id: 5, name: "Pothos", price: 16, image: "https://via.placeholder.com/100" },
+      { id: 6, name: "Areca Palm", price: 30, image: "https://via.placeholder.com/100" }
+    ]
+  },
+  {
+    category: "Flowering Plants",
+    plants: [
+      { id: 7, name: "Rose", price: 22, image: "https://via.placeholder.com/100" },
+      { id: 8, name: "Orchid", price: 35, image: "https://via.placeholder.com/100" },
+      { id: 9, name: "Jasmine", price: 26, image: "https://via.placeholder.com/100" },
+      { id: 10, name: "Lavender", price: 20, image: "https://via.placeholder.com/100" },
+      { id: 11, name: "Begonia", price: 18, image: "https://via.placeholder.com/100" },
+      { id: 12, name: "Hibiscus", price: 24, image: "https://via.placeholder.com/100" }
+    ]
+  },
+  {
+    category: "Succulents",
+    plants: [
+      { id: 13, name: "Jade Plant", price: 17, image: "https://via.placeholder.com/100" },
+      { id: 14, name: "Cactus", price: 12, image: "https://via.placeholder.com/100" },
+      { id: 15, name: "Agave", price: 21, image: "https://via.placeholder.com/100" },
+      { id: 16, name: "Echeveria", price: 19, image: "https://via.placeholder.com/100" },
+      { id: 17, name: "Sedum", price: 13, image: "https://via.placeholder.com/100" },
+      { id: 18, name: "Haworthia", price: 15, image: "https://via.placeholder.com/100" }
+    ]
+  }
+];
 
 function ProductList() {
-  const [cartCount, setCartCount] = useState(0);
+  const dispatch = useDispatch();
 
-  const plants = [
-    { id: 1, name: "Snake Plant", price: 20, category: "Air Purifying" },
-    { id: 2, name: "Aloe Vera", price: 15, category: "Air Purifying" },
-    { id: 3, name: "Peace Lily", price: 25, category: "Air Purifying" },
-    { id: 4, name: "Spider Plant", price: 18, category: "Air Purifying" },
-    { id: 5, name: "Pothos", price: 16, category: "Air Purifying" },
-    { id: 6, name: "Areca Palm", price: 30, category: "Air Purifying" },
+  const [addedToCart, setAddedToCart] = useState({});
 
-    { id: 7, name: "Rose", price: 22, category: "Flowering" },
-    { id: 8, name: "Orchid", price: 35, category: "Flowering" },
-    { id: 9, name: "Jasmine", price: 28, category: "Flowering" },
-    { id: 10, name: "Begonia", price: 18, category: "Flowering" },
-    { id: 11, name: "Lavender", price: 20, category: "Flowering" },
-    { id: 12, name: "Hibiscus", price: 24, category: "Flowering" },
+  const handleAddToCart = (plant) => {
+    dispatch(addItem(plant));
 
-    { id: 13, name: "Cactus", price: 14, category: "Succulents" },
-    { id: 14, name: "Jade Plant", price: 17, category: "Succulents" },
-    { id: 15, name: "Echeveria", price: 16, category: "Succulents" },
-    { id: 16, name: "Haworthia", price: 15, category: "Succulents" },
-    { id: 17, name: "Sedum", price: 13, category: "Succulents" },
-    { id: 18, name: "Agave", price: 19, category: "Succulents" }
-  ];
+    setAddedToCart({
+      ...addedToCart,
+      [plant.name]: true
+    });
+  };
 
   return (
     <div>
-      <nav className="navbar">
-        <h2>Paradise Nursery</h2>
-
-        <div>
-          Home | Plants | Cart 🛒
-          <span className="cart-count">
-            {" "}
-            {cartCount}
-          </span>
-        </div>
+      <nav>
+        /Home</a> |
+        /plantsPlants</a> |
+        /cartCart</a>
       </nav>
 
-      <h1>Plant Listing</h1>
+      {plantsArray.map((category) => (
+        <div key={category.category}>
+          <h2>{category.category}</h2>
 
-      {plants.map((plant) => (
-        <div key={plant.id}>
-          https://via.placeholder.com/100
+          <div className="product-list">
+            {category.plants.map((plant) => (
+              <div className="product-card" key={plant.id}>
+                {plant.image}
 
-          <h3>{plant.name}</h3>
+                <h3>{plant.name}</h3>
 
-          <p>Category: {plant.category}</p>
+                <p>${plant.price}</p>
 
-          <p>${plant.price}</p>
-
-          <button
-            onClick={() => setCartCount(cartCount + 1)}
-          >
-            Add to Cart
-          </button>
+                <button
+                  disabled={addedToCart[plant.name]}
+                  onClick={() => handleAddToCart(plant)}
+                >
+                  {addedToCart[plant.name]
+                    ? "Added to Cart"
+                    : "Add to Cart"}
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       ))}
     </div>
