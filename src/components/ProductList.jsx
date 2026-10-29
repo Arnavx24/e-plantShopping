@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../redux/CartSlice";
 
 const plantsArray = [
@@ -41,7 +41,14 @@ const plantsArray = [
 function ProductList() {
   const dispatch = useDispatch();
 
+  const cart = useSelector((state) => state.cart.items);
+
   const [addedToCart, setAddedToCart] = useState({});
+
+  const cartQuantity = cart.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
 
   const handleAddToCart = (plant) => {
     dispatch(addItem(plant));
@@ -54,10 +61,14 @@ function ProductList() {
 
   return (
     <div>
-      <nav>
-        /Home</a> |
-        /plantsPlants</a> |
-        /cartCart</a>
+      <nav className="navbar">
+        <a href="/">Home</a>
+
+        <a href="/plants">Plants</a>
+
+        <a href="/cart">
+          🛒 Cart ({cartQuantity})
+        </a>
       </nav>
 
       {plantsArray.map((category) => (
@@ -67,7 +78,12 @@ function ProductList() {
           <div className="product-list">
             {category.plants.map((plant) => (
               <div className="product-card" key={plant.id}>
-                {plant.image}
+                <img
+                  src={plant.image}
+                  alt={plant.name}
+                  width="100"
+                  height="100"
+                />
 
                 <h3>{plant.name}</h3>
 
