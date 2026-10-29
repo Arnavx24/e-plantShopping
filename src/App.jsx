@@ -3,21 +3,27 @@ import ProductList from "./components/ProductList";
 import "./App.css";
 
 function App() {
-  const [showProducts, setShowProducts] = useState(false);
+  const [showProductList, setShowProductList] = useState(false);
+
+  const handleGetStartedClick = () => {
+    setShowProductList(true);
+  };
 
   return (
     <>
-      {!showProducts ? (
-        <div className="background-image">
-          <div style={{ textAlign: "center", paddingTop: "200px" }}>
-            <h1>Welcome to Paradise Nursery</h1>
+      {!showProductList ? (
+        <div className="app-container">
+          <div className="background-image">
+            <div style={{ textAlign: "center", paddingTop: "200px" }}>
+              <h1>Welcome to Paradise Nursery</h1>
 
-            <button
-              className="get-started-button"
-              onClick={() => setShowProducts(true)}
-            >
-              Get Started
-            </button>
+              <button
+                className="get-started-button"
+                onClick={handleGetStartedClick}
+              >
+                Get Started
+              </button>
+            </div>
           </div>
         </div>
       ) : (
